@@ -72,3 +72,33 @@ constFunc = function () {
 };
 
 constFunc();
+
+// parameters and arguments
+function printName(name) {
+  console.log("My name is " + name);
+}
+
+printName("John Smith"); // arguments
+// Function parameters are the variables that a function expects to receive when it is invoked
+// function parameters - are declared inside the function declaration, they represent the input values that the function expects to receive
+// "name" is called a parameter
+// A parameter acts as a named variable
+// containers that exists only inside of a function
+// it is used to store information that is provided to a function when it is called/ invoked
+// An argument is a value passed when invoking a function , this argument is then stored as the name of the parameter within the function
+
+printName("Happy");
+
+function argumentsFunction() {
+  console.log(
+    "This function was passed as an argument before the message was printed"
+  );
+}
+
+function invokeFunction(argumentsFunction) {
+  argumentsFunction();
+}
+// invokeFunction(argumentsFunction);
+const message = invokeFunction(argumentsFunction);
+
+// console.log(message); // undefined
