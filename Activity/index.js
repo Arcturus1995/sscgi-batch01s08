@@ -4,13 +4,13 @@ class Pokemon {
     this.type = type;
     this.level = level;
     this.hp = hp;
-    this.defense = defense || 0; // Defense is applied during the damage calculation
-    this.temporaryDefense = 0; // Temporary defense from healing
+    this.defense = defense || 0;
+    this.temporaryDefense = 0;
   }
 
   attack(opponent) {
     let damage = this.calculateDamage();
-    damage = this.calculateCriticalDamage(damage); // Apply critical hit logic
+    damage = this.calculateCriticalDamage(damage);
     console.log(
       `${this.name} attacks ${opponent.name} with a ${this.type} attack causing ${damage} damage!`
     );
@@ -19,9 +19,9 @@ class Pokemon {
 
   receiveDamage(damage) {
     const totalDefense = this.defense + this.temporaryDefense;
-    const netDamage = Math.max(damage - totalDefense, 0); // Subtract combined defense
+    const netDamage = Math.max(damage - totalDefense, 0);
     this.hp -= netDamage;
-    this.hp = Math.max(this.hp, 0); // Ensure HP doesn't go below 0
+    this.hp = Math.max(this.hp, 0);
     console.log(
       `${
         this.name
@@ -33,15 +33,13 @@ class Pokemon {
     if (this.hp <= 0) {
       console.log(`${this.name} has fainted!`);
     }
-
-    // Temporary defense wears off after receiving damage
     this.temporaryDefense = 0;
   }
 
   heal(amount = 20) {
     this.hp += amount;
-    this.hp = Math.min(this.hp, 100); // Ensure max HP is 100
-    this.temporaryDefense = 5; // Apply temporary defense boost
+    this.hp = Math.min(this.hp, 100);
+    this.temporaryDefense = 5;
     console.log(
       `${this.name} has been healed! Current HP: ${this.hp}, Temporary Defense: ${this.temporaryDefense}.`
     );
@@ -58,9 +56,9 @@ class Pokemon {
       `${this.name} has powered up! Level: ${this.level}, Defense: ${this.defense}.`
     );
   }
-
+  // 10% chance for a critical hit
   criticalHit() {
-    return Math.random() < 0.1; // 10% chance for a critical hit
+    return Math.random() < 0.1;
   }
 
   calculateCriticalDamage(damage) {
@@ -80,7 +78,7 @@ class ElectricPokemon extends Pokemon {
   attack(opponent) {
     console.log(`${this.name} uses Thunderbolt attack on ${opponent.name}`);
     let damage = this.level * 3;
-    damage = this.calculateCriticalDamage(damage); // Apply critical hit
+    damage = this.calculateCriticalDamage(damage);
     opponent.receiveDamage(damage);
   }
 }
@@ -93,7 +91,7 @@ class FirePokemon extends Pokemon {
   attack(opponent) {
     console.log(`${this.name} uses Fireball attack on ${opponent.name}`);
     let damage = this.level * 3;
-    damage = this.calculateCriticalDamage(damage); // Apply critical hit
+    damage = this.calculateCriticalDamage(damage);
     opponent.receiveDamage(damage);
   }
 }
@@ -106,7 +104,7 @@ class EarthPokemon extends Pokemon {
   attack(opponent) {
     console.log(`${this.name} uses Earthquake attack on ${opponent.name}`);
     let damage = this.level * 3;
-    damage = this.calculateCriticalDamage(damage); // Apply critical hit
+    damage = this.calculateCriticalDamage(damage);
     opponent.receiveDamage(damage);
   }
 }
@@ -119,7 +117,7 @@ class WindPokemon extends Pokemon {
   attack(opponent) {
     console.log(`${this.name} uses Tornado attack on ${opponent.name}`);
     let damage = this.level * 3;
-    damage = this.calculateCriticalDamage(damage); // Apply critical hit
+    damage = this.calculateCriticalDamage(damage);
     opponent.receiveDamage(damage);
   }
 }
@@ -132,7 +130,7 @@ class WaterPokemon extends Pokemon {
   attack(opponent) {
     console.log(`${this.name} uses Water Blast attack on ${opponent.name}`);
     let damage = this.level * 3;
-    damage = this.calculateCriticalDamage(damage); // Apply critical hit
+    damage = this.calculateCriticalDamage(damage);
     opponent.receiveDamage(damage);
   }
 }
@@ -167,16 +165,15 @@ class Battle {
       `The battle between ${this.trainer1.name} and ${this.trainer2.name} begins!`
     );
     console.log(
-      `${this.trainer1.name}'s Pokémon: ${selectedTrainer1Pokemon.name}`
+      `${this.trainer1.name}'s Pokemon: ${selectedTrainer1Pokemon.name}`
     );
     console.log(
-      `${this.trainer2.name}'s Pokémon: ${selectedTrainer2Pokemon.name}`
+      `${this.trainer2.name}'s Pokemon: ${selectedTrainer2Pokemon.name}`
     );
 
     while (selectedTrainer1Pokemon.hp > 0 && selectedTrainer2Pokemon.hp > 0) {
-      // Randomly decide whether the first Pokémon should heal or attack
+      // Randomly  Pokemon heal or attack 20% chance to heal
       if (Math.random() < 0.2) {
-        // 20% chance to heal
         console.log(`${selectedTrainer1Pokemon.name} decides to heal!`);
         selectedTrainer1Pokemon.heal();
       } else {
@@ -184,7 +181,7 @@ class Battle {
       }
 
       if (selectedTrainer2Pokemon.hp > 0) {
-        // Similarly, allow the second Pokémon to heal randomly
+        //  Pokemon to 20% chance to heal randomly
         if (Math.random() < 0.2) {
           console.log(`${selectedTrainer2Pokemon.name} decides to heal!`);
           selectedTrainer2Pokemon.heal();
@@ -216,7 +213,7 @@ class Battle {
       console.log(`Battle: ${pokemon1.name} vs ${pokemon2.name}`);
 
       while (pokemon1.hp > 0 && pokemon2.hp > 0) {
-        // Allow a random Pokémon to heal during the tournament
+        //  Pokemon to 20% chance to heal randomly
         if (Math.random() < 0.2) {
           console.log(`${pokemon1.name} randomly heals!`);
           pokemon1.heal();
@@ -252,17 +249,17 @@ class Battle {
   }
 }
 
-// Random defense for each Pokémon
+// Random defense for each Pokemon
 const randomDefense = Math.floor(Math.random() * 6);
 
-// Example Trainers and Pokémon
+// Example Trainers and Pokemon
 let ash = new Trainer("Ash");
 let brook = new Trainer("Brook");
 let ken = new Trainer("Ken");
 let carl = new Trainer("Carl");
 let gary = new Trainer("Gary");
 
-// Adding Pokémon with random defense
+// Adding Pokemon with random defense
 ash.addPokemon(new ElectricPokemon("Pikachu", 10, 100, randomDefense));
 ash.addPokemon(new FirePokemon("Charmander", 10, 100, randomDefense));
 brook.addPokemon(new WaterPokemon("Squirtle", 10, 100, randomDefense));
@@ -281,7 +278,8 @@ let randomTrainer2;
 
 do {
   randomTrainer2 = trainers[Math.floor(Math.random() * trainers.length)];
-} while (randomTrainer2 === randomTrainer1); // Ensure they are not the same
+  // Ensure they are not the same
+} while (randomTrainer2 === randomTrainer1);
 
 const tournament = new Battle(randomTrainer1, randomTrainer2);
 tournament.startTournament();
