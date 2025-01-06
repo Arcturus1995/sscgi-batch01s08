@@ -247,11 +247,11 @@ brook.addPokemon(charmander);
 let ashPokemon = ash.selectPokemon(0);
 let brookPokemon = brook.selectPokemon(0);
 
-// ashPokemon.attack(brookPokemon);
-// brookPokemon.receivedDamage(20);
-// brookPokemon.attack(ashPokemon);
-// ashPokemon.receivedDamage(25);
-// ashPokemon.heal(10);
+ashPokemon.attack(brookPokemon);
+brookPokemon.receivedDamage(20);
+brookPokemon.attack(ashPokemon);
+ashPokemon.receivedDamage(25);
+ashPokemon.heal(10);
 
 // abstraction it involves simplifying the complex system by exposing only the essential features
 // class Battle {
@@ -312,7 +312,6 @@ class FirePokemon extends Pokemon {
 const Electricpokemon = new ElectricPokemon("Pikachu", 10, 100);
 
 const Firepokemon = new FirePokemon("charmander", 10, 100);
-
 Firepokemon.attack(Electricpokemon);
 
 // polymorphism the ability of different classes to respond to the same method call in a way that is specific to their type. it allows one interface(method) to be used for a general class of action with each subclass implement the method in its own way.
