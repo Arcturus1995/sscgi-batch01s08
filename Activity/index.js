@@ -1,3 +1,4 @@
+// // This class represents a Pokemon, containing its name, type, level, hp, defense, and temporary defense.
 class Pokemon {
   constructor(name, type, level, hp, defense) {
     this.name = name;
@@ -12,7 +13,7 @@ class Pokemon {
     let damage = this.calculateDamage();
     damage = this.calculateCriticalDamage(damage);
     console.log(
-      `${this.name} attacks ${opponent.name} with a ${this.type} attack causing ${damage} damage!`
+      `${this.trainer.name}'s ${this.name} attacks ${opponent.name} with a ${this.type} attack causing ${damage} damage!`
     );
     opponent.receiveDamage(damage);
   }
@@ -44,11 +45,11 @@ class Pokemon {
       `${this.name} has been healed! Current HP: ${this.hp}, Temporary Defense: ${this.temporaryDefense}.`
     );
   }
-
+  // Calculation of Damage
   calculateDamage() {
     return this.level * 2;
   }
-
+  // Power upd of pokemon
   powerUp() {
     this.level += 1;
     this.defense += 1;
@@ -60,7 +61,7 @@ class Pokemon {
   criticalHit() {
     return Math.random() < 0.1;
   }
-
+  // Calculation of critical hit
   calculateCriticalDamage(damage) {
     if (this.criticalHit()) {
       console.log(`${this.name} lands a critical hit!`);
@@ -76,6 +77,12 @@ class ElectricPokemon extends Pokemon {
   }
 
   attack(opponent) {
+    console.log(
+      "------------------------------------------------------------------------------------------"
+    );
+    console.log(
+      `${this.trainer.name}'s:   ${this.name} Attack ${opponent.name}`
+    );
     console.log(`${this.name} uses Thunderbolt attack on ${opponent.name}`);
     let damage = this.level * 3;
     damage = this.calculateCriticalDamage(damage);
@@ -89,6 +96,12 @@ class FirePokemon extends Pokemon {
   }
 
   attack(opponent) {
+    console.log(
+      "------------------------------------------------------------------------------------------"
+    );
+    console.log(
+      `${this.trainer.name}'s:  ${this.name} Attack  ${opponent.name}`
+    );
     console.log(`${this.name} uses Fireball attack on ${opponent.name}`);
     let damage = this.level * 3;
     damage = this.calculateCriticalDamage(damage);
@@ -102,6 +115,10 @@ class EarthPokemon extends Pokemon {
   }
 
   attack(opponent) {
+    console.log(
+      "------------------------------------------------------------------------------------------"
+    );
+    console.log(`${this.trainer.name}'s: ${this.name} Attack ${opponent.name}`);
     console.log(`${this.name} uses Earthquake attack on ${opponent.name}`);
     let damage = this.level * 3;
     damage = this.calculateCriticalDamage(damage);
@@ -115,6 +132,10 @@ class WindPokemon extends Pokemon {
   }
 
   attack(opponent) {
+    console.log(
+      "------------------------------------------------------------------------------------------"
+    );
+    console.log(`${this.trainer.name}'s: ${this.name} Attack ${opponent.name}`);
     console.log(`${this.name} uses Tornado attack on ${opponent.name}`);
     let damage = this.level * 3;
     damage = this.calculateCriticalDamage(damage);
@@ -128,6 +149,10 @@ class WaterPokemon extends Pokemon {
   }
 
   attack(opponent) {
+    console.log(
+      "------------------------------------------------------------------------------------------"
+    );
+    console.log(`${this.trainer.name}'s: ${this.name} Attack ${opponent.name}`);
     console.log(`${this.name} uses Water Blast attack on ${opponent.name}`);
     let damage = this.level * 3;
     damage = this.calculateCriticalDamage(damage);
@@ -135,13 +160,15 @@ class WaterPokemon extends Pokemon {
   }
 }
 
+// Trainer
 class Trainer {
   constructor(name) {
     this.name = name;
     this.pokemonList = [];
   }
-
+  // Assigning the trainer to the Pokemon
   addPokemon(pokemon) {
+    pokemon.trainer = this;
     this.pokemonList.push(pokemon);
   }
 
@@ -151,6 +178,7 @@ class Trainer {
   }
 }
 
+//Battle Simulation
 class Battle {
   constructor(trainer1, trainer2) {
     this.trainer1 = trainer1;
@@ -165,30 +193,40 @@ class Battle {
       `The battle between ${this.trainer1.name} and ${this.trainer2.name} begins!`
     );
     console.log(
-      `${this.trainer1.name}'s Pokemon: ${selectedTrainer1Pokemon.name}`
+      `${this.trainer1.name}'s Pokémon: ${selectedTrainer1Pokemon.name}`
     );
     console.log(
-      `${this.trainer2.name}'s Pokemon: ${selectedTrainer2Pokemon.name}`
+      `${this.trainer2.name}'s Pokémon: ${selectedTrainer2Pokemon.name}`
     );
 
-    while (selectedTrainer1Pokemon.hp > 0 && selectedTrainer2Pokemon.hp > 0) {
-      // Randomly  Pokemon heal or attack 20% chance to heal
-      if (Math.random() < 0.2) {
-        console.log(`${selectedTrainer1Pokemon.name} decides to heal!`);
-        selectedTrainer1Pokemon.heal();
-      } else {
-        selectedTrainer1Pokemon.attack(selectedTrainer2Pokemon);
+    try {
+      if (!selectedTrainer1Pokemon || !selectedTrainer2Pokemon) {
+        throw new Error("There is no pokemon on the field");
       }
-
-      if (selectedTrainer2Pokemon.hp > 0) {
-        //  Pokemon to 20% chance to heal randomly
+      while (selectedTrainer1Pokemon.hp > 0 && selectedTrainer2Pokemon.hp > 0) {
         if (Math.random() < 0.2) {
-          console.log(`${selectedTrainer2Pokemon.name} decides to heal!`);
-          selectedTrainer2Pokemon.heal();
+          console.log(
+            `${this.trainer1.name}'s ${selectedTrainer1Pokemon.name} decides to heal!`
+          );
+          selectedTrainer1Pokemon.heal();
         } else {
-          selectedTrainer2Pokemon.attack(selectedTrainer1Pokemon);
+          selectedTrainer1Pokemon.attack(selectedTrainer2Pokemon);
+        }
+
+        if (selectedTrainer2Pokemon.hp > 0) {
+          if (Math.random() < 0.2) {
+            console.log(
+              `${this.trainer2.name}'s ${selectedTrainer2Pokemon.name} decides to heal!`
+            );
+            selectedTrainer2Pokemon.heal();
+          } else {
+            selectedTrainer2Pokemon.attack(selectedTrainer1Pokemon);
+          }
         }
       }
+      console.log("Battle has ended");
+    } catch (error) {
+      console.error("There was error occurs on battle", error.message);
     }
 
     if (selectedTrainer1Pokemon.hp <= 0) {
@@ -213,7 +251,6 @@ class Battle {
       console.log(`Battle: ${pokemon1.name} vs ${pokemon2.name}`);
 
       while (pokemon1.hp > 0 && pokemon2.hp > 0) {
-        //  Pokemon to 20% chance to heal randomly
         if (Math.random() < 0.2) {
           console.log(`${pokemon1.name} randomly heals!`);
           pokemon1.heal();
@@ -244,7 +281,9 @@ class Battle {
 
     const winner =
       trainer1Pokemon.length > 0 ? this.trainer1.name : this.trainer2.name;
-
+    console.log(
+      "------------------------------------------------------------------------------------------"
+    );
     console.log(`${winner} wins the tournament!`);
   }
 }
@@ -272,14 +311,24 @@ gary.addPokemon(new ElectricPokemon("Volt", 10, 100, randomDefense));
 gary.addPokemon(new WindPokemon("Tornado", 10, 100, randomDefense));
 
 // Random tournament
-const trainers = [ash, brook, ken, carl, gary];
-const randomTrainer1 = trainers[Math.floor(Math.random() * trainers.length)];
-let randomTrainer2;
+try {
+  const trainers = [ash, brook, ken, carl, gary];
+  if (!Array.isArray(trainers) || trainers.length < 2) {
+    throw new Error(" The Tournament must contain at least 2 trainers");
+  }
 
-do {
-  randomTrainer2 = trainers[Math.floor(Math.random() * trainers.length)];
-  // Ensure they are not the same
-} while (randomTrainer2 === randomTrainer1);
+  const randomTrainer1 = trainers[Math.floor(Math.random() * trainers.length)];
+  let randomTrainer2;
 
-const tournament = new Battle(randomTrainer1, randomTrainer2);
-tournament.startTournament();
+  do {
+    randomTrainer2 = trainers[Math.floor(Math.random() * trainers.length)];
+  } while (randomTrainer2 === randomTrainer1);
+
+  if (!randomTrainer1 || !randomTrainer2) {
+    throw new Error("Invalid trainer Selected");
+  }
+  const tournament = new Battle(randomTrainer1, randomTrainer2);
+  tournament.startTournament();
+} catch (error) {
+  console.error("There was an error", error.message);
+}
