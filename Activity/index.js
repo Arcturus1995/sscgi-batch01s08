@@ -326,7 +326,10 @@ class Battle {
     }
 
     console.log("The tournament has ended!");
-    console.log(`${winner.name} is the champion of the tournament!`);
+    console.log(
+      `%c🏆${winner.name} is the champion of the tournament!🏆`,
+      "font-size: 50px; font-weight: bold; font-style: italic; font-family: 'Courier New';"
+    );
   }
 
   // Get a random trainer who has not lost
